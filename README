@@ -1,7 +1,8 @@
 wiki_tex converts LaTeX documents to a form that can be easily
 imported into MediaWiki.  Useage is:
 
-python wiki_tex.py filename
+
+python wiki_tex.py tatkappa | python3.11 add_citations.py refs.bib > out_with_citations.txt
 
 This loads filename.tex and converts it into a file or files that can
 be used as input to a MediaWiki.  By default, the program parses
