@@ -1,0 +1,20 @@
+wiki_tex converts LaTeX documents to a form that can be easily
+imported into MediaWiki.  Useage is:
+
+python wiki_tex.py filename
+
+This loads filename.tex and converts it into a file or files that can
+be used as input to a MediaWiki.  By default, the program parses
+everything between \begin{document} and \end{document}, and puts the
+output into filename0.wiki.  However, it also has an option to output
+multiple files.  To invoke this option, simply insert the line:
+
+%#break
+
+into your LaTeX code wherever you want a new output.  This will
+generate articles filename0.wiki, filename1.wiki, and so on.  It
+starts conversion wherver the first occurrence of %#break is.
+
+The program is very simple.  It's a quick and dirty kludge, intended
+to ease the process of importing into MediaWiki, not a full-fledged
+converter.  With that in mind, I hope it's useful.

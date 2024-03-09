@@ -148,7 +148,9 @@ def extract_article(source,article_number,num_articles,base_web_filename):
   source = source.strip("\n")
   source = source.replace("\n\n\n","\n\n")
   source = strip_lines(source)
-  print "Creating article number %s." % article_number
+  print ("Creating article number %s." % article_number)
+  article_file = open(base_web_filename+str(article_number)+".wiki",'w')
+  print ("Creating article number %s." % article_number)
   article_file = open(base_web_filename+str(article_number)+".wiki",'w')
   article_file.write(source)
   article_file.close()
@@ -157,7 +159,7 @@ base_web_filename = sys.argv[1]
 source = get_latex_file(base_web_filename)
 source = source.replace("\\end{document}","")
 num_articles = source.count('%#break')
-print num_articles
+print (num_articles)
 if num_articles == 0:
   num_articles = 1
   source = source.replace("\\begin{document}",'%#break',1)
