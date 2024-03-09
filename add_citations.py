@@ -10,7 +10,8 @@ def remove_duplicate_entries(bib_file_path):
         bib_content = f.read()
 
     # Regex to match bib entries. Assumes entries start with @ and are separated by at least one blank line
-    entry_pattern = re.compile(r'(@[a-zA-Z]+\{[^@]+?\}\n\n)', re.DOTALL)
+    # TODO remove all comments; collapse entries to one line; remove duplicates    
+    entry_pattern = re.compile(r'(@[a-zA-Z]+\{[^@]+?\}\n\n?)', re.DOTALL)
     entries = entry_pattern.findall(bib_content)
 
     # Create a dictionary to hold entries, using the citation key as the unique identifier
@@ -48,7 +49,7 @@ def convert_citations(text, bib_structure):
     #with open(text_file_path, 'r') as f:
     #    text = f.read()
 
-    cite_regex = re.compile(r'\\cite(p)?\{([^}]+)\}')
+    cite_regex = re.compile(r'\\cite(p)?\{(.+?)\}')
     used_citations = []
 
     def citation_replacement(match):
