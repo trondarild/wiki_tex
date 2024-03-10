@@ -111,6 +111,7 @@ def convert_citations(text, bib_structure):
     cite_regex = re.compile(r'\\cite(p)?\{([^}]+)\}')
     used_citations = []
 
+    '''
     def citation_replacement(match):
         prefix = "(" if match.group(1) else ""
         cite_key = match.group(2)
@@ -126,6 +127,29 @@ def convert_citations(text, bib_structure):
         # else:
         #     print('not found citekey: ' + cite_key)
         return match.group(0)
+    '''
+    def citation_replacement(match):
+        prefix = "(" if match.group(1) else ""
+        cite_keys = match.group(2).split(',')  # Split cite keys by comma
+        citations = []
+
+        for cite_key in cite_keys:
+            cite_key = cite_key.strip()  # Remove leading/trailing whitespace
+            if cite_key in bib_structure:
+                entry = bib_structure[cite_key]
+                authors = entry['authors'].split(' and ')[0].split(',')[0]  # Assuming first author only
+                year = entry['year']
+                citation = f"{authors} et al., "
+                citation+= f"{year}" if match.group(1) else f"({year})"
+                citations.append(citation)
+                used_citations.append(cite_key)
+            else:
+                print('not found citekey: ' + cite_key)
+
+        # Join multiple citations with a semicolon and space as per APA guidelines
+        citation_text = '; '.join(citations)
+
+        return f"{prefix}{citation_text}{')' if prefix else ''}"
 
     text = cite_regex.sub(citation_replacement, text)
 
