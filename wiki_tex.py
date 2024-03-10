@@ -85,6 +85,7 @@ def simple_replacements(source):
   replacements = {"\\begin{quote}":"",
                   "\\end{quote}":"",
                   "---":"-",
+                  "--":"–",
                   "\\begin{itemize}":"",    
                   "\\end{itemize}":"",
                   "\\begin{enumerate}":"",
