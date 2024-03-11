@@ -85,6 +85,7 @@ def simple_replacements(source):
   replacements = {"\\begin{quote}":"",
                   "\\end{quote}":"",
                   "---":"-",
+                  "--":"–",
                   "\\begin{itemize}":"",    
                   "\\end{itemize}":"",
                   "\\begin{enumerate}":"",
@@ -192,31 +193,39 @@ def extract_article(source,article_number,num_articles,base_web_filename):
   # print ("Creating article number %s." % article_number)
   
 
-def write_to_file(base_web_filename, article_number):
+def write_to_file(base_web_filename, article_number, source):
   # article_file = open(base_web_filename+str(article_number)+".wiki",'w')
   # print ("Creating article number %s." % article_number)
   article_file = open(base_web_filename+str(article_number)+".wiki",'w')
   article_file.write(source)
   article_file.close()
 
-base_web_filename = sys.argv[1]
-source = get_latex_file(base_web_filename)
 
-source = source.replace("\\end{document}","")
 
-num_articles = source.count('%#break')
-# print (num_articles)
-if num_articles == 0:
-  num_articles = 1
-  source = source.replace("\\begin{document}",'%#break',1)
+if __name__ == '__main__':
+  #text_file_path = sys.argv[1]
+  # Read LaTeX content from stdin
+  
+  # TODO: 
+  # latex_content = sys.stdin.read()
+  
+  base_web_filename = sys.argv[1]
+  source = get_latex_file(base_web_filename)
 
-for article_number in range(num_articles):
-  # source = source[(source.find('%#break')+8):]
-  if (article_number+1) < num_articles: 
-    article_source = source[0:source.find('%#break')]
-  else: 
-    article_source = source
-  # print(article_source[0:10])
-  source = extract_article(article_source,article_number,num_articles,base_web_filename)
-  print(source)
+  source = source.replace("\\end{document}","")
 
+  num_articles = source.count('%#break')
+  # print (num_articles)
+  if num_articles == 0:
+    num_articles = 1
+    source = source.replace("\\begin{document}",'%#break',1)
+
+  for article_number in range(num_articles):
+    # source = source[(source.find('%#break')+8):]
+    if (article_number+1) < num_articles: 
+      article_source = source[0:source.find('%#break')]
+    else: 
+      article_source = source
+    # print(article_source[0:10])
+    source = extract_article(article_source,article_number,num_articles,base_web_filename)
+    print(source)
